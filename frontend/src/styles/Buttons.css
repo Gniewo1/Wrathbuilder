@@ -1,6 +1,6 @@
 .newCharacter-button {
-    width: 400px;
-    height: 100px;
+    width: 500px;
+    height: 200px;
     background-image: url('../images/New_character.jpg'); /* Adjust path */
     background-size: cover;
     background-repeat: no-repeat;
@@ -9,7 +9,7 @@
     border: none;
     cursor: pointer;
     color: #fff; /* fallback text color */
-    font-size: 18px;
+    font-size: 23px;
     font-weight: bold;
     text-shadow: 1px 1px 2px #000;
     transition: transform 0.2s ease;
@@ -20,8 +20,8 @@
   }
 
   .loadCharacter-button {
-    width: 400px;
-    height: 100px;
+    width: 500px;
+    height: 200px;
     background-image: url('../images/Load_character.jpg'); /* Adjust path */
     background-size: cover;
     background-repeat: no-repeat;
@@ -30,7 +30,7 @@
     border: none;
     cursor: pointer;
     color: #fff; /* fallback text color */
-    font-size: 18px;
+    font-size: 23px;
     font-weight: bold;
     text-shadow: 1px 1px 2px #000;
     transition: transform 0.2s ease;

@@ -1,7 +1,9 @@
 import axios from 'axios'
 import { useEffect, useState } from 'react'
-import Navbar from './Navbar'
-import { LogOut } from '../functions/LogOut';
+import Navbar from '../components/Navbar'
+// import { LogOut } from '../functions/LogOut';
+import Login from '../components/Login';
+import HomepageButtons from '../components/HomepageButtons';
 import '../styles/Buttons.css';
 
 const Home = () => {
@@ -45,11 +47,9 @@ const Home = () => {
       <>
       <Navbar />
       {isAuthenticated ?
-      
-      <button className="newCharacter-button">New Character</button>
-      <button className="loadCharacter-button">New Character</button>
+        <HomepageButtons/>
       : 
-      <div>Logout</div>}
+      <Login/>}
     </>
 
      

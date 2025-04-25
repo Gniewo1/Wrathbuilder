@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import Navbar from './Navbar'
+import Navbar from '../components/Navbar';
+import '../styles/Auth-Form.css';
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -35,7 +36,7 @@ const Register = () => {
     <>
     <Navbar />
 
-    <form onSubmit={onSubmit}>
+    <form onSubmit={onSubmit} className="auth-form">
       <input
         type="text"
         placeholder="Username"
