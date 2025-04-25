@@ -1,0 +1,41 @@
+.newCharacter-button {
+    width: 400px;
+    height: 100px;
+    background-image: url('../images/New_character.jpg'); /* Adjust path */
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+  
+    border: none;
+    cursor: pointer;
+    color: #fff; /* fallback text color */
+    font-size: 18px;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px #000;
+    transition: transform 0.2s ease;
+  }
+  
+  .newCharacter:hover {
+    transform: scale(1.05);
+  }
+
+  .loadCharacter-button {
+    width: 400px;
+    height: 100px;
+    background-image: url('../images/Load_character.jpg'); /* Adjust path */
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+  
+    border: none;
+    cursor: pointer;
+    color: #fff; /* fallback text color */
+    font-size: 18px;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px #000;
+    transition: transform 0.2s ease;
+  }
+  
+  .loadCharacter:hover {
+    transform: scale(1.05);
+  }

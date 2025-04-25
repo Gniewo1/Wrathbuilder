@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Navbar from './Navbar';
 import '../styles/Auth-Form.css';
+import '../styles/Body.css';
 
 const Login = () => {
   const [formData, setFormData] = useState({

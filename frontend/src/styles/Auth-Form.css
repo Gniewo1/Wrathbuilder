@@ -1,27 +1,3 @@
-body {
-    margin: 0;
-    padding: 0;
-    background-image: url('../images/Pathfinder.jpg'); /* Update this to your actual image path */
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    font-family: 'Cinzel', serif; /* Optional fantasy font */
-    color: #f0e6d2;
-  }
-  
-  body::before {
-    content: "";
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(20, 10, 5, 0.7); /* Dark overlay for contrast */
-    z-index: -1;
-  }
-
-
   .auth-form {
     max-width: 600px;
     margin: 120px auto;

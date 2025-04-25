@@ -2,6 +2,7 @@ import axios from 'axios'
 import { useEffect, useState } from 'react'
 import Navbar from './Navbar'
 import { LogOut } from '../functions/LogOut';
+import '../styles/Buttons.css';
 
 const Home = () => {
    
@@ -43,7 +44,12 @@ const Home = () => {
     return (
       <>
       <Navbar />
-      {isAuthenticated ? <div>Login</div> : <div>Logout</div>}
+      {isAuthenticated ?
+      
+      <button className="newCharacter-button">New Character</button>
+      <button className="loadCharacter-button">New Character</button>
+      : 
+      <div>Logout</div>}
     </>
 
      
