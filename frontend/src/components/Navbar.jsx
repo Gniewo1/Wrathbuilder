@@ -40,7 +40,7 @@ const Navbar = () => {
   return (
     <nav className="navbar">
       <div className="navbar-logo">
-        <Link to="/">MyApp</Link>
+        <Link to="/">WrathBuilder</Link>
       </div>
       
       <ul className="navbar-links">
