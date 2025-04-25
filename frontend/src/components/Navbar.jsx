@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate  } from 'react-router-dom';
 import '../styles/Navbar.css';
 import { CheckAuthentication } from '../functions/CheckAuthentication';
 import { LogOut } from '../functions/LogOut';
@@ -10,12 +10,14 @@ import { useState, useEffect } from 'react'
 
 const Navbar = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const navigate = useNavigate();
 
   const handleLogout = async () => {
     const success = await LogOut();
 
     if (success) {
       // Redirect to homepage after successful logout
+      navigate('/');
       window.location.reload();
     } else {
       // Handle logout failure (e.g., show an error message)

@@ -4,63 +4,87 @@ from django.db import models
 class CustomUser(AbstractUser):
     verified = models.BooleanField(default=False)
 
+# Model which create new build
+class CharacterBuild(models.Model):
+    MYTHICPATH_CHOICES = [
+        ("Aeon", "Aeon"),
+        ("Angel", "Angel"),
+        ("Azata", "Azata"),
+        ("Demon", "Demon"),
+        ("Devil", "Devil"),
+        ("Gold Dragon", "Gold Dragon"),
+        ("Legend", "Legend"),
+        ("Lich", "Lich"),
+        ("Trickster", "Trickster"),
+        ("Swarm-That-Walks", "Swarm-That-Walks"),
+    ]
+        
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='builds')
+    name = models.CharField(max_length=100)
+    race = models.ForeignKey('Race', on_delete=models.SET_NULL, null=True)
+    alignment = models.ForeignKey('Alignment', on_delete=models.SET_NULL, null=True)
+    background = models.ForeignKey('Background', on_delete=models.SET_NULL, null=True)
+    deity = models.ForeignKey('Deity', on_delete=models.SET_NULL, null=True, blank=True)
+    mythic_path = models.CharField(max_length=16, choices=MYTHICPATH_CHOICES)
+    description = models.TextField(blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
-class Item:
-    def __init__(self, product_id, product_name, price, quantity):
-        self.product_id = product_id
-        self.product_name = product_name
-        self.price = price
-        self.quantity = quantity
-
-    def to_dict(self):
-        return {
-            "product_id": self.product_id,
-            "product_name": self.product_name,
-            "price": float(self.price),
-            "quantity": self.quantity,
-            "line_total": float(self.price) * self.quantity,
-        }
-
-class Order(models.Model):
-    order_id = models.CharField(max_length=50, unique=True)
-    order_date = models.DateTimeField()
-    order_status = models.CharField(max_length=50)
-    
-    # Customer information
-    customer_name = models.CharField(max_length=100)
-    customer_email = models.EmailField()
-    customer_phone = models.CharField(max_length=20, blank=True, null=True)
-    
-    # Address information
-    shipping_address = models.CharField(max_length=255)
-    shipping_city = models.CharField(max_length=100)
-    shipping_postcode = models.CharField(max_length=20)
-    shipping_country = models.CharField(max_length=100)
-    
-    # Additional information
-    payment_status = models.CharField(max_length=50)
-    payment_method = models.CharField(max_length=50)
-    total_cost_paid = models.DecimalField(max_digits=10, decimal_places=2)
-    total_cost= models.DecimalField(max_digits=10, decimal_places=2)
-    currency = models.CharField(max_length=10)
-
-    # Store list of items as JSON
-    items = models.JSONField()
-    
     def __str__(self):
-        return f"Order {self.order_id} - {self.customer_name}"
+        return self.name
 
-    def add_item(self, item):
-        # Adds an item to the order
-        if not isinstance(item, Item):
-            raise ValueError("item must be an instance of Item")
-        
-        item_data = item.to_dict()
-        if not self.items:
-            self.items = [item_data]
-        else:
-            self.items.append(item_data)
-        
-        # Update total_amount
-        self.total_amount += item_data["line_total"]
-        self.save()
+
+class Race(models.Model):
+    name = models.CharField(max_length=100)
+    description = models.TextField()
+    strength_bonus = models.IntegerField(default=0)
+    dexterity_bonus = models.IntegerField(default=0)
+    constitution_bonus = models.IntegerField(default=0)
+    intelligence_bonus = models.IntegerField(default=0)
+    wisdom_bonus = models.IntegerField(default=0)
+    charisma_bonus = models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.name
+    
+class AbilityScore(models.Model):
+    build = models.OneToOneField(CharacterBuild, on_delete=models.CASCADE, related_name='ability_scores')
+    strength = models.IntegerField()
+    dexterity = models.IntegerField()
+    constitution = models.IntegerField()
+    intelligence = models.IntegerField()
+    wisdom = models.IntegerField()
+    charisma = models.IntegerField()
+
+class Background(models.Model):
+    name = models.CharField(max_length=100)
+    description = models.TextField(blank=True)
+
+    def __str__(self):
+        return self.name
+    
+class Deity(models.Model):
+    ALIGNMENT_CHOICES = [
+        ("LG", "Lawful Good"),
+        ("NG", "Neutral Good"),
+        ("CG", "Chaotic Good"),
+        ("LN", "Lawful Neutral"),
+        ("TN", "True Neutral"),
+        ("CN", "Chaotic Neutral"),
+        ("LE", "Lawful Evil"),
+        ("NE", "Neutral Evil"),
+        ("CE", "Chaotic Evil"),
+    ]
+
+    name = models.CharField(max_length=100, unique=True)
+    allowed_alignments = models.ManyToManyField('Alignment', related_name='deities')
+    description = models.TextField(blank=True)
+
+    def __str__(self):
+        return self.name
+    
+class Alignment(models.Model):
+    code = models.CharField(max_length=2, unique=True)  # e.g., "LG"
+    name = models.CharField(max_length=50)              # e.g., "Lawful Good"
+
+    def __str__(self):
+        return self.name

@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
-from .models import Order
+
 
 User = get_user_model()
 
@@ -19,10 +19,3 @@ class RegisterSerializer(serializers.ModelSerializer):
         return user
 
 
-class OrderSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Order
-        fields = ['order_id', 'order_date', 'order_status', 'customer_name', 'customer_email', 
-                  'customer_phone', 'shipping_address', 'shipping_city', 'shipping_postcode', 
-                  'shipping_country', 'payment_status', 'payment_method', 'total_amount', 
-                  'currency', 'items']
