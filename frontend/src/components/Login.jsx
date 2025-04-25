@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import Navbar from './Navbar'
+import Navbar from './Navbar';
+import '../styles/Auth-Form.css';
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -42,25 +43,25 @@ const Login = () => {
     <>
 
     <Navbar />
-    <form onSubmit={onSubmit}>
-      <input
-        type="text"
-        placeholder="Username"
-        name="username"
-        value={username}
-        onChange={onChange}
-        required
-      />
-      <input
-        type="password"
-        placeholder="Password"
-        name="password"
-        value={password}
-        onChange={onChange}
-        required
-      />
-      <button type="submit">Login</button>
-    </form>
+    <form onSubmit={onSubmit} className="auth-form">
+    <input
+      type="text"
+      placeholder="Username"
+      name="username"
+      value={username}
+      onChange={onChange}
+      required
+    />
+    <input
+      type="password"
+      placeholder="Password"
+      name="password"
+      value={password}
+      onChange={onChange}
+      required
+    />
+    <button type="submit">Login</button>
+  </form>
     </>
   );
 };
