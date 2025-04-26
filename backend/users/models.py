@@ -43,6 +43,9 @@ class Race(models.Model):
     wisdom_bonus = models.IntegerField(default=0)
     charisma_bonus = models.IntegerField(default=0)
 
+    # True if race can choose abilityscore bounus
+    choose_bonus = models.BooleanField(default=False)
+
     def __str__(self):
         return self.name
     
@@ -55,6 +58,9 @@ class AbilityScore(models.Model):
     wisdom = models.IntegerField()
     charisma = models.IntegerField()
 
+    def __str__(self):
+        return (self.build.name + " abilities scores")
+
 class Background(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField(blank=True)
@@ -63,17 +69,17 @@ class Background(models.Model):
         return self.name
     
 class Deity(models.Model):
-    ALIGNMENT_CHOICES = [
-        ("LG", "Lawful Good"),
-        ("NG", "Neutral Good"),
-        ("CG", "Chaotic Good"),
-        ("LN", "Lawful Neutral"),
-        ("TN", "True Neutral"),
-        ("CN", "Chaotic Neutral"),
-        ("LE", "Lawful Evil"),
-        ("NE", "Neutral Evil"),
-        ("CE", "Chaotic Evil"),
-    ]
+    # ALIGNMENT_CHOICES = [
+    #     ("LG", "Lawful Good"),
+    #     ("NG", "Neutral Good"),
+    #     ("CG", "Chaotic Good"),
+    #     ("LN", "Lawful Neutral"),
+    #     ("TN", "True Neutral"),
+    #     ("CN", "Chaotic Neutral"),
+    #     ("LE", "Lawful Evil"),
+    #     ("NE", "Neutral Evil"),
+    #     ("CE", "Chaotic Evil"),
+    # ]
 
     name = models.CharField(max_length=100, unique=True)
     allowed_alignments = models.ManyToManyField('Alignment', related_name='deities')
@@ -88,3 +94,30 @@ class Alignment(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Skill(models.Model):
+    name = models.CharField(max_length=50) 
+    description = models.TextField()
+
+    def __str__(self):
+        return self.name
+
+# Classes available
+class Class(models.Model):
+    name = models.CharField(max_length=100)
+    description = models.TextField()
+    hit_die = models.IntegerField()
+    skill_points = models.IntegerField()
+    class_skills =  models.ManyToManyField('Skill', related_name='classes')
+
+    def __str__(self):
+        return self.name
+
+
+
+# Classes choosen to build
+class BuildClassLevel(models.Model):
+    build = models.ForeignKey(CharacterBuild, on_delete=models.CASCADE, related_name='class_levels')
+    char_class = models.ForeignKey(Class, on_delete=models.CASCADE)
+    level = models.PositiveIntegerField()
