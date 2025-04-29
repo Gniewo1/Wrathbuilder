@@ -48,6 +48,8 @@ class Race(models.Model):
 
     # True if race can choose ability score bounus
     choose_bonus = models.BooleanField(default=False)
+    #image to represent race
+    image = models.ImageField(upload_to='race_images/', blank=True, null=True)
 
     def __str__(self):
         return self.name

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../styles/Select.css';
+import RaceComponent from './RaceComponent';
 
 const CreateCharacter = () => {
   const [name, setName] = useState('');
@@ -11,7 +12,7 @@ const CreateCharacter = () => {
 
   useEffect(() => {
     // Fetch races
-    fetch('http://localhost:8000/races/')
+    fetch('http://localhost:8000/race-names/')
       .then((res) => res.json())
       .then((data) => setRaces(data))
       .catch((err) => console.error('Error fetching races:', err));
@@ -20,7 +21,6 @@ const CreateCharacter = () => {
     fetch('http://localhost:8000/classes')
     .then((res) => res.json())
     .then((data) => {
-      console.log("Fetched data:", data);  // Log raw data before setting it
       setClasses(data);
     })
     .catch((err) => console.error('Error fetching classes:', err));
@@ -63,34 +63,32 @@ const CreateCharacter = () => {
         {/* Race selection dropdown */}
         <label>
           Race:
-            <select
+          <select
             value={selectedRace}
             onChange={(e) => setSelectedRace(e.target.value)}
             required
             className="styled-select"
-            >
+          >
             <option value="">-- Select Race --</option>
-            {races.map((race) => {
-                const bonuses = [
-                race.strength_bonus !== 0 ? `${race.strength_bonus > 0 ? '+' : ''}${race.strength_bonus} STR` : null,
-                race.dexterity_bonus !== 0 ? `${race.dexterity_bonus > 0 ? '+' : ''}${race.dexterity_bonus} DEX` : null,
-                race.constitution_bonus !== 0 ? `${race.constitution_bonus > 0 ? '+' : ''}${race.constitution_bonus} CON` : null,
-                race.intelligence_bonus !== 0 ? `${race.intelligence_bonus > 0 ? '+' : ''}${race.intelligence_bonus} INT` : null,
-                race.wisdom_bonus !== 0 ? `${race.wisdom_bonus > 0 ? '+' : ''}${race.wisdom_bonus} WIS` : null,
-                race.charisma_bonus !== 0 ? `${race.charisma_bonus > 0 ? '+' : ''}${race.charisma_bonus} CHA` : null,
-                race.choose_bonus ? `+2 ANY` : null,
-                ]
-                .filter(Boolean)
-                .join(', ');
-
-                return (
-                <option key={race.id} value={race.id}>
-                    {race.name} {bonuses && `(${bonuses})`}
-                </option>
-                );
-            })}
-            </select>
+            {races.map((race) => (
+              <option key={race.id} value={race.id}>
+                {race.name}
+              </option>
+            ))}
+          </select>
         </label>
+
+        {/* This changes info and image of races */}
+        {selectedRace && (
+          <RaceComponent
+            id={selectedRace}
+            // race={
+            //   races.find((r) => r.id.toString() === selectedRace)?.id || 'Unknown'
+            // }
+          />
+        )}
+
+
 
         {/* Class selection dropdown */}
         <label>

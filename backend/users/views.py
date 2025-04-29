@@ -7,6 +7,7 @@ from rest_framework.authtoken.serializers import AuthTokenSerializer
 from knox.views import LoginView as KnoxLoginView
 from django.contrib.auth import login
 from django.http import JsonResponse
+from django.shortcuts import get_object_or_404
 
 from .models import CharacterBuild, Race, Class
 
@@ -56,9 +57,28 @@ class CharacterBuildCreateView(generics.CreateAPIView):
     serializer_class = CharacterBuildSerializer
     permission_classes = [IsAuthenticated]
 
-def race_list(request):
-    races = Race.objects.all().values('id', 'name','strength_bonus', 'dexterity_bonus','constitution_bonus', 'intelligence_bonus', 'wisdom_bonus', 'charisma_bonus', 'choose_bonus')
+def race_names(request):
+    races = Race.objects.all().values('id', 'name')
     return JsonResponse(list(races), safe=False)
+
+## Fetch one selected race info
+def fetch_race(request, race_id):
+    
+    race = get_object_or_404(Race, id=race_id)
+    
+    return JsonResponse({
+        'id': race.id,
+        'name': race.name,
+        'description': race.description,
+        'strength_bonus': race.strength_bonus,
+        'dexterity_bonus': race.dexterity_bonus,
+        'constitution_bonus': race.constitution_bonus,
+        'intelligence_bonus': race.intelligence_bonus,
+        'wisdom_bonus': race.wisdom_bonus,
+        'charisma_bonus': race.charisma_bonus,
+        'choose_bonus': race.choose_bonus,
+        'image': race.image.url if race.image else None,
+    })
 
 def class_list(request):
     # Use prefetch_related to avoid unnecessary JOINs
