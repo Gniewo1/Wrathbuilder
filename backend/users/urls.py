@@ -1,6 +1,6 @@
 from django.urls import path
 from knox import views as knox_views
-from .views import RegisterAPI, UserCheckView, LoginAPI, CharacterBuildCreateView, race_list
+from .views import RegisterAPI, UserCheckView, LoginAPI, CharacterBuildCreateView, race_list, class_list
 
 urlpatterns = [
     path('api/register/', RegisterAPI.as_view(), name='register'),
@@ -9,5 +9,6 @@ urlpatterns = [
     path('api/auth/user/', UserCheckView.as_view(), name='user-check'),
     path('builds/create/', CharacterBuildCreateView.as_view(), name='create-build'),
     path('races/', race_list, name='race-list'),
+    path('classes/', class_list, name='class-list'),
 
 ]

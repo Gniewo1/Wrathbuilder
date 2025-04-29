@@ -6,14 +6,26 @@ const CreateCharacter = () => {
   const [name, setName] = useState('');
   const [races, setRaces] = useState([]);
   const [selectedRace, setSelectedRace] = useState('');
+  const [classes, setClasses] = useState([]);
+  const [selectedClass, setSelectedClass] = useState('');
 
   useEffect(() => {
+    // Fetch races
     fetch('http://localhost:8000/races/')
       .then((res) => res.json())
       .then((data) => setRaces(data))
       .catch((err) => console.error('Error fetching races:', err));
-      console.log(races)
+
+    // Fetch classes
+    fetch('http://localhost:8000/classes')
+    .then((res) => res.json())
+    .then((data) => {
+      console.log("Fetched data:", data);  // Log raw data before setting it
+      setClasses(data);
+    })
+    .catch((err) => console.error('Error fetching classes:', err));
   }, []);
+
 
   const handleSubmit = async e => {
     e.preventDefault();
@@ -78,6 +90,37 @@ const CreateCharacter = () => {
                 );
             })}
             </select>
+        </label>
+
+        {/* Class selection dropdown */}
+        <label>
+          Class:
+          <select
+            value={selectedClass}
+            onChange={(e) => setSelectedClass(e.target.value)}
+            required
+            className="styled-select"
+          >
+            <option value="">-- Select Class --</option>
+            {classes.map((cls) => {
+              // Handle allowed_alignments, default to "ANY" if empty
+              const allowedAlignments = cls.allowed_alignments && cls.allowed_alignments.length > 0
+                ? cls.allowed_alignments.join(', ') // Assuming it's an array of strings
+                : 'ANY';
+
+              // Check if class_skills is an array, and join if it is
+              const classSkills = Array.isArray(cls.class_skills) ? cls.class_skills.join(', ') : 'N/A'; // Default to 'N/A' if not an array
+
+              const classInfo = `${cls.name} (Hit Die: ${cls.hit_die}, Skill Points: ${cls.skill_points}, ` +
+                `Class Skills: ${classSkills}, Allowed Alignments: ${allowedAlignments})`;
+
+              return (
+                <option key={cls.id} value={cls.id}>
+                  {classInfo}
+                </option>
+              );
+            })}
+          </select>
         </label>
 
         <button type="submit">Create</button>

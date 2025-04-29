@@ -6,9 +6,12 @@ from .serializers import RegisterSerializer
 from rest_framework.authtoken.serializers import AuthTokenSerializer
 from knox.views import LoginView as KnoxLoginView
 from django.contrib.auth import login
-from .models import CharacterBuild, Race
-from .serializers import CharacterBuildSerializer
 from django.http import JsonResponse
+
+from .models import CharacterBuild, Race, Class
+
+from .serializers import CharacterBuildSerializer
+
 
 
 class RegisterAPI(generics.GenericAPIView):
@@ -56,3 +59,20 @@ class CharacterBuildCreateView(generics.CreateAPIView):
 def race_list(request):
     races = Race.objects.all().values('id', 'name','strength_bonus', 'dexterity_bonus','constitution_bonus', 'intelligence_bonus', 'wisdom_bonus', 'charisma_bonus', 'choose_bonus')
     return JsonResponse(list(races), safe=False)
+
+def class_list(request):
+    # Use prefetch_related to avoid unnecessary JOINs
+    classes = Class.objects.prefetch_related('class_skills', 'allowed_alignments').all()
+
+    class_data = []
+    for class_obj in classes:
+        class_data.append({
+            'id': class_obj.id,
+            'name': class_obj.name,
+            'hit_die': class_obj.hit_die,
+            'skill_points': class_obj.skill_points,
+            'class_skills': [skill.name for skill in class_obj.class_skills.all()],  # Assuming class_skills has 'name'
+            'allowed_alignments': [alignment.name for alignment in class_obj.allowed_alignments.all()]  # Assuming allowed_alignments has 'name'
+        })
+    
+    return JsonResponse(class_data, safe=False)

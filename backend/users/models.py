@@ -1,6 +1,8 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
+
+# User model
 class CustomUser(AbstractUser):
     verified = models.BooleanField(default=False)
 
@@ -44,7 +46,7 @@ class Race(models.Model):
     wisdom_bonus = models.IntegerField(default=0)
     charisma_bonus = models.IntegerField(default=0)
 
-    # True if race can choose abilityscore bounus
+    # True if race can choose ability score bounus
     choose_bonus = models.BooleanField(default=False)
 
     def __str__(self):
@@ -98,7 +100,16 @@ class Alignment(models.Model):
 
 
 class Skill(models.Model):
+    ABILITY_CHOICES = [
+        ("STR", "Strength"),
+        ("DEX", "Dexterity"),
+        ("INT", "Intelligence"),
+        ("WIS", "Wisdom"),
+        ("CHA", "Charisma"),
+    ]
+        
     name = models.CharField(max_length=50) 
+    ability_link = models.CharField(max_length=16, choices=ABILITY_CHOICES, default="Dexterity")
     description = models.TextField()
 
     def __str__(self):
@@ -111,6 +122,9 @@ class Class(models.Model):
     hit_die = models.IntegerField()
     skill_points = models.IntegerField()
     class_skills =  models.ManyToManyField('Skill', related_name='classes')
+
+    # if alignment is empty that mean there is not restrictions 
+    allowed_alignments = models.ManyToManyField('Alignment', related_name='classes', default=None, blank=True)
 
     def __str__(self):
         return self.name
