@@ -1,0 +1,17 @@
+.styled-select {
+    width: 100%;
+    padding: 18px;
+    margin-bottom: 20px;
+    border: 1px solid #444;
+    border-radius: 5px;
+    background-color: #2e2e2e;
+    color: #f0e6d2;
+    font-size: 16px;
+    appearance: none; /* removes default arrow styling in some browsers */
+  }
+  
+  .styled-select:focus {
+    outline: none;
+    border-color: #a66b2b;
+    box-shadow: 0 0 5px #a66b2b;
+  }

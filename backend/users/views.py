@@ -6,8 +6,9 @@ from .serializers import RegisterSerializer
 from rest_framework.authtoken.serializers import AuthTokenSerializer
 from knox.views import LoginView as KnoxLoginView
 from django.contrib.auth import login
-from .models import CharacterBuild
+from .models import CharacterBuild, Race
 from .serializers import CharacterBuildSerializer
+from django.http import JsonResponse
 
 
 class RegisterAPI(generics.GenericAPIView):
@@ -51,3 +52,7 @@ class CharacterBuildCreateView(generics.CreateAPIView):
     queryset = CharacterBuild.objects.all()
     serializer_class = CharacterBuildSerializer
     permission_classes = [IsAuthenticated]
+
+def race_list(request):
+    races = Race.objects.all().values('id', 'name','strength_bonus', 'dexterity_bonus','constitution_bonus', 'intelligence_bonus', 'wisdom_bonus', 'charisma_bonus', 'choose_bonus')
+    return JsonResponse(list(races), safe=False)
