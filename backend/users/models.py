@@ -22,6 +22,7 @@ class CharacterBuild(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='builds')
     name = models.CharField(max_length=100)
     race = models.ForeignKey('Race', on_delete=models.SET_NULL, null=True)
+    first_class = models.ForeignKey('Class', on_delete=models.SET_NULL, null=True)
     alignment = models.ForeignKey('Alignment', on_delete=models.SET_NULL, null=True)
     background = models.ForeignKey('Background', on_delete=models.SET_NULL, null=True)
     deity = models.ForeignKey('Deity', on_delete=models.SET_NULL, null=True, blank=True)

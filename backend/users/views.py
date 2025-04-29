@@ -6,6 +6,8 @@ from .serializers import RegisterSerializer
 from rest_framework.authtoken.serializers import AuthTokenSerializer
 from knox.views import LoginView as KnoxLoginView
 from django.contrib.auth import login
+from .models import CharacterBuild
+from .serializers import CharacterBuildSerializer
 
 
 class RegisterAPI(generics.GenericAPIView):
@@ -45,3 +47,7 @@ class UserCheckView(APIView):
             'last_name': user.last_name
         })
     
+class CharacterBuildCreateView(generics.CreateAPIView):
+    queryset = CharacterBuild.objects.all()
+    serializer_class = CharacterBuildSerializer
+    permission_classes = [IsAuthenticated]

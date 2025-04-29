@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
+from .models import CharacterBuild
 
 
 User = get_user_model()
@@ -17,5 +18,10 @@ class RegisterSerializer(serializers.ModelSerializer):
             password=validated_data['password']
         )
         return user
+    
 
+class CharacterBuildSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CharacterBuild
+        fields = '__all__'
 

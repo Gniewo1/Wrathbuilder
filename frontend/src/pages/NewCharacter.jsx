@@ -1,11 +1,12 @@
 import Navbar from '../components/Navbar'
+import CreateCharacter from '../components/CreateCharacter'
 
 const NewCharacter = () => {
 
     return (
         <>
         <Navbar/>
-        <h1>New</h1>
+        <CreateCharacter/>
         </>
     );
 
