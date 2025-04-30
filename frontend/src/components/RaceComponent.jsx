@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
+// This component is showing info about race with given id of this race
 export default function RaceComponent({ id }) {
   const [raceDetails, setRaceDetails] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -14,9 +15,9 @@ export default function RaceComponent({ id }) {
 
     // Fetch race details using the provided `id`
     axios
-      .get(`http://localhost:8000/fetch-race/${id}/`) // Assuming the endpoint is like this
+      .get(`http://localhost:8000/fetch-race/${id}/`)
       .then((response) => {
-        console.log('Fetched race details:', response.data);
+        // console.log('Fetched race details:', response.data);
         setRaceDetails(response.data);
         setLoading(false);
       })
@@ -41,8 +42,8 @@ export default function RaceComponent({ id }) {
 
   return (
     <div>
-      <h3>{raceDetails.name}</h3>
-      <p>{raceDetails.description}</p>
+      <h2>{raceDetails.name}</h2>
+      
   
       {raceDetails.image && (
         <img
@@ -52,8 +53,8 @@ export default function RaceComponent({ id }) {
         />
       )}
   
-    <h4>Ability Score Bonuses:</h4>
-        <ul>
+    <h3>Ability Score Bonuses:</h3>
+        <ul style={{ listStyleType: 'none', paddingLeft: 0 }}>
         {raceDetails.strength_bonus !== 0 && (
             <li>Strength: {raceDetails.strength_bonus > 0 ? '+' : ''}{raceDetails.strength_bonus}</li>
         )}
@@ -74,6 +75,8 @@ export default function RaceComponent({ id }) {
         )}
         {raceDetails.choose_bonus && <li>+ 2 to Any</li>}
         </ul>
+        <h3>Description:</h3>
+        <p>{raceDetails.description}</p>
     </div>
   );
 }

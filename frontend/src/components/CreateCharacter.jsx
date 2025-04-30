@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../styles/Select.css';
 import RaceComponent from './RaceComponent';
+import ClassComponent from './ClassComponent';
 
 const CreateCharacter = () => {
   const [name, setName] = useState('');
@@ -9,21 +10,45 @@ const CreateCharacter = () => {
   const [selectedRace, setSelectedRace] = useState('');
   const [classes, setClasses] = useState([]);
   const [selectedClass, setSelectedClass] = useState('');
+  const [alignments, setAlignment] = useState([]);
+  const [selectedAlignment, setSelectedAlignment] = useState('');
+  const [backgrounds, setBackgrounds] = useState([]);
+  const [selectedBackground, setSelectedBackground] = useState('');
 
   useEffect(() => {
-    // Fetch races
+    // Fetch races names
     fetch('http://localhost:8000/race-names/')
       .then((res) => res.json())
       .then((data) => setRaces(data))
       .catch((err) => console.error('Error fetching races:', err));
 
-    // Fetch classes
-    fetch('http://localhost:8000/classes')
+    // Fetch classes names
+    fetch('http://localhost:8000/class-names/')
     .then((res) => res.json())
     .then((data) => {
       setClasses(data);
     })
     .catch((err) => console.error('Error fetching classes:', err));
+
+    // Fetch classes names
+    fetch('http://localhost:8000/alignment-names/')
+    .then((res) => res.json())
+    .then((data) => {
+      setAlignment(data);
+    })
+    .catch((err) => console.error('Error fetching alignment:', err));
+
+    // Fetch classes names
+    fetch('http://localhost:8000/background-names/')
+    .then((res) => res.json())
+    .then((data) => {
+      setBackgrounds(data);
+    })
+    .catch((err) => console.error('Error fetching Backgrounds:', err));
+
+
+
+
   }, []);
 
 
@@ -49,6 +74,8 @@ const CreateCharacter = () => {
     <div>
       <h2>Create New Character</h2>
       <form onSubmit={handleSubmit} className="auth-form">
+
+        {/* Putting name */}
         <label>
           Character Name:
           <input
@@ -82,9 +109,6 @@ const CreateCharacter = () => {
         {selectedRace && (
           <RaceComponent
             id={selectedRace}
-            // race={
-            //   races.find((r) => r.id.toString() === selectedRace)?.id || 'Unknown'
-            // }
           />
         )}
 
@@ -100,24 +124,55 @@ const CreateCharacter = () => {
             className="styled-select"
           >
             <option value="">-- Select Class --</option>
-            {classes.map((cls) => {
-              // Handle allowed_alignments, default to "ANY" if empty
-              const allowedAlignments = cls.allowed_alignments && cls.allowed_alignments.length > 0
-                ? cls.allowed_alignments.join(', ') // Assuming it's an array of strings
-                : 'ANY';
+            {classes.map((cls) => (
+              <option key={cls.id} value={cls.id}>
+                {cls.name}
+              </option>
+            ))}
+          </select>
+        </label>
 
-              // Check if class_skills is an array, and join if it is
-              const classSkills = Array.isArray(cls.class_skills) ? cls.class_skills.join(', ') : 'N/A'; // Default to 'N/A' if not an array
+          {/* This changes info of classes */}
+                {selectedClass && (
+          <ClassComponent
+            id={selectedClass}
+          />
+        )}
 
-              const classInfo = `${cls.name} (Hit Die: ${cls.hit_die}, Skill Points: ${cls.skill_points}, ` +
-                `Class Skills: ${classSkills}, Allowed Alignments: ${allowedAlignments})`;
+        {/* Alignment Selection */}
+        <label>
+          Alignment:
+          <select
+            value={selectedAlignment}
+            onChange={(e) => setSelectedAlignment(e.target.value)}
+            required
+            className="styled-select"
+          >
+            <option value="">-- Select Alignment --</option>
+            {alignments.map((cls) => (
+              <option key={cls.id} value={cls.id}>
+                {cls.name}
+              </option>
+            ))}
+          </select>
+        </label>
 
-              return (
-                <option key={cls.id} value={cls.id}>
-                  {classInfo}
-                </option>
-              );
-            })}
+
+      {/* Background Selection */}
+          <label>
+          Background:
+          <select
+            value={selectedBackground}
+            onChange={(e) => setSelectedBackground(e.target.value)}
+            required
+            className="styled-select"
+          >
+            <option value="">-- Select Background --</option>
+            {backgrounds.map((cls) => (
+              <option key={cls.id} value={cls.id}>
+                {cls.name}
+              </option>
+            ))}
           </select>
         </label>
 

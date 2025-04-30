@@ -9,7 +9,7 @@ from django.contrib.auth import login
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 
-from .models import CharacterBuild, Race, Class
+from .models import CharacterBuild, Race, Class, Alignment, Background, Deity
 
 from .serializers import CharacterBuildSerializer
 
@@ -57,10 +57,29 @@ class CharacterBuildCreateView(generics.CreateAPIView):
     serializer_class = CharacterBuildSerializer
     permission_classes = [IsAuthenticated]
 
+########################################## fetch names of objects #############################
 def race_names(request):
     races = Race.objects.all().values('id', 'name')
     return JsonResponse(list(races), safe=False)
 
+def class_names(request):
+    classes = Class.objects.all().values('id', 'name')
+    return JsonResponse(list(classes), safe=False)
+
+def alignment_names(request):
+    alignments = Alignment.objects.all().values('id', 'name')
+    return JsonResponse(list(alignments), safe=False)
+
+def background_names(request):
+    backgrounds = Background.objects.all().values('id', 'name')
+    return JsonResponse(list(backgrounds), safe=False)
+
+def deity_names(request):
+    deities = Deity.objects.all().values('id', 'name')
+    return JsonResponse(list(deities), safe=False)
+
+
+######################################### fetch one specific object given an id #########################
 ## Fetch one selected race info
 def fetch_race(request, race_id):
     
@@ -80,19 +99,18 @@ def fetch_race(request, race_id):
         'image': race.image.url if race.image else None,
     })
 
-def class_list(request):
-    # Use prefetch_related to avoid unnecessary JOINs
-    classes = Class.objects.prefetch_related('class_skills', 'allowed_alignments').all()
 
-    class_data = []
-    for class_obj in classes:
-        class_data.append({
-            'id': class_obj.id,
-            'name': class_obj.name,
-            'hit_die': class_obj.hit_die,
-            'skill_points': class_obj.skill_points,
-            'class_skills': [skill.name for skill in class_obj.class_skills.all()],  # Assuming class_skills has 'name'
-            'allowed_alignments': [alignment.name for alignment in class_obj.allowed_alignments.all()]  # Assuming allowed_alignments has 'name'
-        })
-    
-    return JsonResponse(class_data, safe=False)
+
+def fetch_class(request, class_id):
+    # Use prefetch_related to avoid unnecessary JOINs
+    class_info = get_object_or_404(Class, id=class_id)
+
+    return JsonResponse({
+        'id': class_info.id,
+        'name': class_info.name,
+        'description': class_info.description,
+        'hit_die': class_info.hit_die,
+        'skill points' : class_info.skill_points,
+        'class_skills': list(class_info.class_skills.values_list('name', flat=True)),
+        'allowed_alignments': list(class_info.allowed_alignments.values_list('name', flat=True))
+    })
