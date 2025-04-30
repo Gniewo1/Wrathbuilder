@@ -114,3 +114,26 @@ def fetch_class(request, class_id):
         'class_skills': list(class_info.class_skills.values_list('name', flat=True)),
         'allowed_alignments': list(class_info.allowed_alignments.values_list('name', flat=True))
     })
+
+
+def fetch_background(request, background_id):
+    # Use prefetch_related to avoid unnecessary JOINs
+    background = get_object_or_404(Background, id=background_id)
+
+    return JsonResponse({
+        'id': background.id,
+        'name': background.name,
+        'description': background.description,
+    })
+
+def fetch_deity(request, deity_id):
+    # Use prefetch_related to avoid unnecessary JOINs
+    deity = get_object_or_404(Deity, id=deity_id)
+
+    return JsonResponse({
+        'id': deity.id,
+        'name': deity.name,
+        'allowed_alignments': list(deity.allowed_alignments.values_list('name', flat=True)),
+        'description': deity.description,
+        'image': deity.image.url if deity.image else None,
+    })

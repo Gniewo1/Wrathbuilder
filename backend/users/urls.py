@@ -2,7 +2,7 @@ from django.urls import path
 from knox import views as knox_views
 from django.conf import settings
 from django.conf.urls.static import static
-from .views import RegisterAPI, UserCheckView, LoginAPI, CharacterBuildCreateView, race_names, fetch_race, class_names, fetch_class, alignment_names, background_names, deity_names
+from .views import RegisterAPI, UserCheckView, LoginAPI, CharacterBuildCreateView, race_names, fetch_race, class_names, fetch_class, alignment_names, background_names, deity_names, fetch_background, fetch_deity
 
 urlpatterns = [
     path('api/register/', RegisterAPI.as_view(), name='register'),
@@ -20,6 +20,8 @@ urlpatterns = [
 
     path('fetch-race/<int:race_id>/', fetch_race, name='fetch-race'),
     path('fetch-class/<int:class_id>/', fetch_class, name='fetch-class'),
+    path('fetch-background/<int:background_id>/', fetch_background, name='fetch-background'),
+    path('fetch-deity/<int:deity_id>/', fetch_deity, name='fetch-deity'),
 
 ]
 

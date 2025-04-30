@@ -3,6 +3,8 @@ import axios from 'axios';
 import '../styles/Select.css';
 import RaceComponent from './RaceComponent';
 import ClassComponent from './ClassComponent';
+import BackgroundComponent from './BackgroundComponent';
+import DeityComponent from './DeityComponent';
 
 const CreateCharacter = () => {
   const [name, setName] = useState('');
@@ -188,6 +190,13 @@ const CreateCharacter = () => {
           </select>
         </label>
 
+        {/* This changes info of background */}
+        {selectedBackground && (
+          <BackgroundComponent
+            id={selectedBackground}
+          />
+        )}
+
 
         {/* Deity Selection */}
         <label>
@@ -206,6 +215,13 @@ const CreateCharacter = () => {
             ))}
           </select>
         </label>
+
+        {/* This changes info of deity */}
+        {selectedDeity && (
+          <DeityComponent
+            id={selectedDeity}
+          />
+        )}
 
         <button type="submit">Create</button>
       </form>

@@ -90,6 +90,8 @@ class Deity(models.Model):
     allowed_alignments = models.ManyToManyField('Alignment', related_name='deities')
     description = models.TextField(blank=True)
 
+    image = models.ImageField(upload_to='deity_images/', blank=True, null=True)
+
     def __str__(self):
         return self.name
     
