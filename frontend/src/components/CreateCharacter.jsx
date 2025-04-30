@@ -19,77 +19,92 @@ const CreateCharacter = () => {
   const [deities, setDeities] = useState([]);
   const [selectedDeity, setSelectedDeity] = useState('');
 
+  const [deityAlignments, setDeityAlignments] = useState([]);
+  const [classAlignments, setClassAlignments] = useState([]);
+  const [selectedAlignmentName, setSelectedAlignmentName] = useState([]);
+
+  // setSelectedAlignmentName(alignments[selectedAlignment - 1]?.name || '');
+  
+  const handleAlignmentChange = (e) => {
+    const selectedId = e.target.value;  // The selected alignment id
+    setSelectedAlignment(selectedId);   // First task: Update selected alignment
+    
+    // Second task: Do something else with the selected alignment id
+    // const selectedAlignmentName = alignments[selectedId - 1]?.name || '';
+    // console.log('Selected Alignment Name:', selectedAlignmentName);
+  
+    // You can also update other states or perform any other logic here
+    // For example, you can set the alignment name if you need it in the state:
+    
+    setSelectedAlignmentName(alignments[selectedAlignment -1]?.name);
+  };
+
+
+  const isValidAlignment = 
+    (deityAlignments.some(alignment => alignment.name === selectedAlignment) || deityAlignments.some(alignment => alignment.name === 'ANY')) &&
+    (classAlignments.some(alignment => alignment.name === selectedAlignment) || classAlignments.some(alignment => alignment.name === 'ANY'));
+
   useEffect(() => {
-    // Fetch races names
     fetch('http://localhost:8000/race-names/')
       .then((res) => res.json())
       .then((data) => setRaces(data))
       .catch((err) => console.error('Error fetching races:', err));
 
-    // Fetch classes names
     fetch('http://localhost:8000/class-names/')
-    .then((res) => res.json())
-    .then((data) => {
-      setClasses(data);
-    })
-    .catch((err) => console.error('Error fetching classes:', err));
+      .then((res) => res.json())
+      .then((data) => setClasses(data))
+      .catch((err) => console.error('Error fetching classes:', err));
 
-    // Fetch alignment names
     fetch('http://localhost:8000/alignment-names/')
-    .then((res) => res.json())
-    .then((data) => {
-      setAlignment(data);
-    })
-    .catch((err) => console.error('Error fetching alignment:', err));
+      .then((res) => res.json())
+      .then((data) => setAlignment(data))
+      .catch((err) => console.error('Error fetching alignment:', err));
 
-    // Fetch background names
     fetch('http://localhost:8000/background-names/')
-    .then((res) => res.json())
-    .then((data) => {
-      setBackgrounds(data);
-    })
-    .catch((err) => console.error('Error fetching Backgrounds:', err));
+      .then((res) => res.json())
+      .then((data) => setBackgrounds(data))
+      .catch((err) => console.error('Error fetching Backgrounds:', err));
 
-    // Fetch deity names
     fetch('http://localhost:8000/deity-names/')
-    .then((res) => res.json())
-    .then((data) => {
-      setDeities(data);
-    })
-    .catch((err) => console.error('Error fetching Deities:', err));
-
-
-
-
-
-
+      .then((res) => res.json())
+      .then((data) => setDeities(data))
+      .catch((err) => console.error('Error fetching Deities:', err));
   }, []);
 
-
   const handleSubmit = async e => {
-    e.preventDefault();
+    // e.preventDefault();
 
-    try {
-      await axios.post('/builds/create/', { name, race: selectedRace }, {
-        headers: {
-          Authorization: `Token ${localStorage.getItem('authToken')}`,
-        },
-      });
-      alert('Character created!');
-      setName('');
-      setSelectedRace('');
-    } catch (error) {
-      console.error('Error creating character:', error);
-      alert('Failed to create character.');
-    }
+    // try {
+    //   await axios.post('/builds/create/', {
+    //     name,
+    //     race: selectedRace,
+    //   }, {
+    //     headers: {
+    //       Authorization: `Token ${localStorage.getItem('authToken')}`,
+    //     },
+    //   });
+
+    //   alert('Character created!');
+    //   setName('');
+    //   setSelectedRace('');
+    // } catch (error) {
+    //   console.error('Error creating character:', error);
+    //   alert('Failed to create character.');
+    // }
+
   };
-
+  const Click = () => {
+    console.log("Deity Alignments:", deityAlignments);
+    console.log("Class Alignments:", classAlignments);
+    console.log("Selected Alignment:", selectedAlignment);
+    // console.log(alignments[selectedAlignment-1].name);
+    // console.log(selectedAlignmentName);
+    
+  };
   return (
     <div>
       <h2>Create New Character</h2>
       <form onSubmit={handleSubmit} className="auth-form">
-
-        {/* Putting name */}
         <label>
           Character Name:
           <input
@@ -101,7 +116,6 @@ const CreateCharacter = () => {
           />
         </label>
 
-        {/* Race selection dropdown */}
         <label>
           Race:
           <select
@@ -119,16 +133,8 @@ const CreateCharacter = () => {
           </select>
         </label>
 
-        {/* This changes info and image of races */}
-        {selectedRace && (
-          <RaceComponent
-            id={selectedRace}
-          />
-        )}
+        {selectedRace && <RaceComponent id={selectedRace} />}
 
-
-
-        {/* Class selection dropdown */}
         <label>
           Class:
           <select
@@ -146,34 +152,37 @@ const CreateCharacter = () => {
           </select>
         </label>
 
-          {/* This changes info of classes */}
-                {selectedClass && (
+        {selectedClass && (
           <ClassComponent
             id={selectedClass}
+            setAllowedAlignments={setClassAlignments}
           />
         )}
 
-        {/* Alignment Selection */}
         <label>
           Alignment:
           <select
             value={selectedAlignment}
-            onChange={(e) => setSelectedAlignment(e.target.value)}
+            onChange={(e) => handleAlignmentChange(e)}
             required
             className="styled-select"
           >
             <option value="">-- Select Alignment --</option>
             {alignments.map((cls) => (
-              <option key={cls.id} value={cls.id}>
+              <option key={cls.name} value={cls.name}>
                 {cls.name}
               </option>
             ))}
           </select>
         </label>
 
+        {/* {selectedDeity && (
+          <DeityComponent id={selectedDeity} setAllowedAlignments={setDeityAlignments} />
+        )} */}
 
-      {/* Background Selection */}
-          <label>
+
+
+        <label>
           Background:
           <select
             value={selectedBackground}
@@ -190,17 +199,10 @@ const CreateCharacter = () => {
           </select>
         </label>
 
-        {/* This changes info of background */}
-        {selectedBackground && (
-          <BackgroundComponent
-            id={selectedBackground}
-          />
-        )}
+        {selectedBackground && <BackgroundComponent id={selectedBackground} />}
 
-
-        {/* Deity Selection */}
         <label>
-        Deity:
+          Deity:
           <select
             value={selectedDeity}
             onChange={(e) => setSelectedDeity(e.target.value)}
@@ -216,13 +218,25 @@ const CreateCharacter = () => {
           </select>
         </label>
 
-        {/* This changes info of deity */}
         {selectedDeity && (
           <DeityComponent
             id={selectedDeity}
+            setAllowedAlignments={setDeityAlignments}
           />
         )}
 
+
+          <div>
+          <h3>Chosen Alignment: {selectedAlignment}</h3>
+          {!selectedAlignment ? (
+            <p>Please select an alignment.</p>
+          ) : isValidAlignment ? (
+            <p style={{ color: 'green' }}>✅ This alignment is allowed by both deity and class.</p>
+          ) : (
+            <p style={{ color: 'red' }}>❌ This alignment is not allowed by either the deity or the class.</p>
+          )}
+        </div>
+        <button onClick={Click}>ConsoleLog</button>
         <button type="submit">Create</button>
       </form>
     </div>

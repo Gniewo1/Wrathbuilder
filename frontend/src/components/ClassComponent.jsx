@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 // This component displays information about a class given its ID
-export default function ClassComponent({ id }) {
+export default function ClassComponent({ id, setAllowedAlignments }) {
   const [classDetails, setClassDetails] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -16,16 +16,27 @@ export default function ClassComponent({ id }) {
     axios
       .get(`http://localhost:8000/fetch-class/${id}/`)
       .then((response) => {
-        // console.log('Fetched class details:', response.data);
         setClassDetails(response.data);
+
+        // Pass alignments up if available, otherwise send 'ANY'
+        if (
+          Array.isArray(response.data.allowed_alignments) &&
+          response.data.allowed_alignments.length > 0
+        ) {
+          setAllowedAlignments(response.data.allowed_alignments);
+        } else {
+          setAllowedAlignments(['ANY']);
+        }
+
         setLoading(false);
       })
       .catch((err) => {
         console.error('Error fetching class details:', err);
         setError('Failed to load class details.');
+        setAllowedAlignments([]); // Reset on error
         setLoading(false);
       });
-  }, [id]);
+  }, [id, setAllowedAlignments]);
 
   if (loading) return <div>Loading class details...</div>;
   if (error) return <div>{error}</div>;
@@ -49,14 +60,12 @@ export default function ClassComponent({ id }) {
       <ul style={{ listStyleType: 'none', paddingLeft: 0 }}>
         <li><strong>Hit Die: {classDetails.hit_die} + Con modifier</strong></li>
         <li><strong>Skill Points: {classDetails['skill points']} + Int modifier</strong></li>
-        <li><strong>Class Skills:{classSkills}</strong></li>
+        <li><strong>Class Skills: {classSkills}</strong></li>
         <li><strong>Allowed Alignments: {allowedAlignments}</strong></li>
       </ul>
 
       <h3>Description:</h3>
       <p>{classDetails.description}</p>
-
-
     </div>
   );
 }

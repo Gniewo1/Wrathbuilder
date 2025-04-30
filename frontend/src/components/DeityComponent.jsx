@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-export default function DeityComponent({ id }) {
+export default function DeityComponent({ id, setAllowedAlignments }) {
   const [deityDetails, setDeityDetails] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -16,14 +16,16 @@ export default function DeityComponent({ id }) {
       .get(`http://localhost:8000/fetch-deity/${id}/`)
       .then((response) => {
         setDeityDetails(response.data);
+        setAllowedAlignments(response.data.allowed_alignments || []);  // pass data up
         setLoading(false);
       })
       .catch((err) => {
         console.error('Error fetching deity details:', err);
         setError('Failed to load deity details.');
+        setAllowedAlignments([]); // in case of error, reset alignments
         setLoading(false);
       });
-  }, [id]);
+  }, [id, setAllowedAlignments]);
 
   if (loading) return <div>Loading deity details...</div>;
   if (error) return <div>{error}</div>;
@@ -36,7 +38,7 @@ export default function DeityComponent({ id }) {
         <img
           src={`http://localhost:8000${deityDetails.image}`}
           alt={deityDetails.name}
-          style={{ maxWidth: '200px', height: 'auto' }}
+          style={{ maxWidth: 'auto', height: '200px' }}
         />
       )}
       <h3>Allowed Alignments:</h3>
