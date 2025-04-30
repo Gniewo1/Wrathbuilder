@@ -14,6 +14,8 @@ const CreateCharacter = () => {
   const [selectedAlignment, setSelectedAlignment] = useState('');
   const [backgrounds, setBackgrounds] = useState([]);
   const [selectedBackground, setSelectedBackground] = useState('');
+  const [deities, setDeities] = useState([]);
+  const [selectedDeity, setSelectedDeity] = useState('');
 
   useEffect(() => {
     // Fetch races names
@@ -30,7 +32,7 @@ const CreateCharacter = () => {
     })
     .catch((err) => console.error('Error fetching classes:', err));
 
-    // Fetch classes names
+    // Fetch alignment names
     fetch('http://localhost:8000/alignment-names/')
     .then((res) => res.json())
     .then((data) => {
@@ -38,13 +40,23 @@ const CreateCharacter = () => {
     })
     .catch((err) => console.error('Error fetching alignment:', err));
 
-    // Fetch classes names
+    // Fetch background names
     fetch('http://localhost:8000/background-names/')
     .then((res) => res.json())
     .then((data) => {
       setBackgrounds(data);
     })
     .catch((err) => console.error('Error fetching Backgrounds:', err));
+
+    // Fetch deity names
+    fetch('http://localhost:8000/deity-names/')
+    .then((res) => res.json())
+    .then((data) => {
+      setDeities(data);
+    })
+    .catch((err) => console.error('Error fetching Deities:', err));
+
+
 
 
 
@@ -169,6 +181,25 @@ const CreateCharacter = () => {
           >
             <option value="">-- Select Background --</option>
             {backgrounds.map((cls) => (
+              <option key={cls.id} value={cls.id}>
+                {cls.name}
+              </option>
+            ))}
+          </select>
+        </label>
+
+
+        {/* Deity Selection */}
+        <label>
+        Deity:
+          <select
+            value={selectedDeity}
+            onChange={(e) => setSelectedDeity(e.target.value)}
+            required
+            className="styled-select"
+          >
+            <option value="">-- Select Deity --</option>
+            {deities.map((cls) => (
               <option key={cls.id} value={cls.id}>
                 {cls.name}
               </option>
