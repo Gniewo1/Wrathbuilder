@@ -1,4 +1,4 @@
-from rest_framework import generics
+from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.views import APIView
@@ -8,6 +8,8 @@ from knox.views import LoginView as KnoxLoginView
 from django.contrib.auth import login
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
+from rest_framework.decorators import api_view, permission_classes
+
 
 from .models import CharacterBuild, Race, Class, Alignment, Background, Deity
 
@@ -137,3 +139,38 @@ def fetch_deity(request, deity_id):
         'description': deity.description,
         'image': deity.image.url if deity.image else None,
     })
+
+
+######################## Create CharacterBuild ######################
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def create_character_build(request):
+    user = request.user
+    data = request.data
+
+    try:
+        race = Race.objects.get(id=data.get('race'))
+        first_class = Class.objects.get(id=data.get('first_class'))
+        alignment = Alignment.objects.get(name=data.get('alignment'))
+        background = Background.objects.get(id=data.get('background'))
+        deity_id = data.get('deity')
+        deity = Deity.objects.get(id=deity_id) if deity_id else None
+
+        build = CharacterBuild.objects.create(
+            user=user,
+            name=data.get('name'),
+            race=race,
+            first_class=first_class,
+            alignment=alignment,
+            background=background,
+            deity=deity,
+            mythic_path=data.get('mythic_path', ''),
+            backstory=data.get('backstory', '')
+        )
+
+        return Response({'message': 'Character build created successfully.', 'id': build.id}, status=status.HTTP_201_CREATED)
+
+    except (Race.DoesNotExist, Class.DoesNotExist, Alignment.DoesNotExist, Background.DoesNotExist, Deity.DoesNotExist) as e:
+        return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+    except Exception as e:
+        return Response({'error': 'Something went wrong: ' + str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

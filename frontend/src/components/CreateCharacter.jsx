@@ -60,27 +60,48 @@ const CreateCharacter = () => {
       .catch((err) => console.error('Error fetching Deities:', err));
   }, []);
 
-  const handleSubmit = async e => {
-    // e.preventDefault();
-
-    // try {
-    //   await axios.post('/builds/create/', {
-    //     name,
-    //     race: selectedRace,
-    //   }, {
-    //     headers: {
-    //       Authorization: `Token ${localStorage.getItem('authToken')}`,
-    //     },
-    //   });
-
-    //   alert('Character created!');
-    //   setName('');
-    //   setSelectedRace('');
-    // } catch (error) {
-    //   console.error('Error creating character:', error);
-    //   alert('Failed to create character.');
-    // }
-
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+  
+    const token = localStorage.getItem('token'); // Or wherever your token is stored
+    if (!token) {
+      alert('You must be logged in to create a character build.');
+      return;
+    }
+  
+    const buildData = {
+      name,
+      race: selectedRace,
+      first_class: selectedClass,
+      alignment: selectedAlignment,
+      background: selectedBackground,
+      deity: selectedDeity || null,
+      // mythic_path: 
+      backstory
+    };
+  
+    try {
+      const response = await fetch('http://localhost:8000/create-character/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Token ${token}`
+        },
+        body: JSON.stringify(buildData)
+      });
+  
+      const data = await response.json();
+  
+      if (response.ok) {
+        alert('Character build created successfully!');
+        // Optionally reset form or redirect
+      } else {
+        alert(`Error: ${data.error}`);
+      }
+    } catch (error) {
+      console.error('Error submitting build:', error);
+      alert('Something went wrong.');
+    }
   };
 
   return (
@@ -158,9 +179,6 @@ const CreateCharacter = () => {
           </select>
         </label>
 
-        {/* {selectedDeity && (
-          <DeityComponent id={selectedDeity} setAllowedAlignments={setDeityAlignments} />
-        )} */}
 
 
 
