@@ -18,31 +18,20 @@ const CreateCharacter = () => {
   const [selectedBackground, setSelectedBackground] = useState('');
   const [deities, setDeities] = useState([]);
   const [selectedDeity, setSelectedDeity] = useState('');
+  const [backstory, setBackstory] = useState('');
 
   const [deityAlignments, setDeityAlignments] = useState([]);
   const [classAlignments, setClassAlignments] = useState([]);
-  const [selectedAlignmentName, setSelectedAlignmentName] = useState([]);
-
-  // setSelectedAlignmentName(alignments[selectedAlignment - 1]?.name || '');
   
   const handleAlignmentChange = (e) => {
     const selectedId = e.target.value;  // The selected alignment id
     setSelectedAlignment(selectedId);   // First task: Update selected alignment
-    
-    // Second task: Do something else with the selected alignment id
-    // const selectedAlignmentName = alignments[selectedId - 1]?.name || '';
-    // console.log('Selected Alignment Name:', selectedAlignmentName);
-  
-    // You can also update other states or perform any other logic here
-    // For example, you can set the alignment name if you need it in the state:
-    
-    setSelectedAlignmentName(alignments[selectedAlignment -1]?.name);
   };
 
 
   const isValidAlignment = 
-    (deityAlignments.some(alignment => alignment.name === selectedAlignment) || deityAlignments.some(alignment => alignment.name === 'ANY')) &&
-    (classAlignments.some(alignment => alignment.name === selectedAlignment) || classAlignments.some(alignment => alignment.name === 'ANY'));
+  (deityAlignments.includes(selectedAlignment) || deityAlignments.includes('ANY')) &&
+  (classAlignments.includes(selectedAlignment) || classAlignments.includes('ANY'));
 
   useEffect(() => {
     fetch('http://localhost:8000/race-names/')
@@ -93,14 +82,7 @@ const CreateCharacter = () => {
     // }
 
   };
-  const Click = () => {
-    console.log("Deity Alignments:", deityAlignments);
-    console.log("Class Alignments:", classAlignments);
-    console.log("Selected Alignment:", selectedAlignment);
-    // console.log(alignments[selectedAlignment-1].name);
-    // console.log(selectedAlignmentName);
-    
-  };
+
   return (
     <div>
       <h2>Create New Character</h2>
@@ -226,8 +208,21 @@ const CreateCharacter = () => {
         )}
 
 
+          <label>
+            Backstory:
+          
+            <textarea
+              value={backstory}
+              onChange={(e) => setBackstory(e.target.value)}
+              rows={5}
+              placeholder="Enter character's backstory here..."
+              className="styled-textarea"
+            />
+          </label>
+
+
           <div>
-          <h3>Chosen Alignment: {selectedAlignment}</h3>
+          {/* <h3>Chosen Alignment: {selectedAlignment}</h3> */}
           {!selectedAlignment ? (
             <p>Please select an alignment.</p>
           ) : isValidAlignment ? (
@@ -236,8 +231,7 @@ const CreateCharacter = () => {
             <p style={{ color: 'red' }}>❌ This alignment is not allowed by either the deity or the class.</p>
           )}
         </div>
-        <button onClick={Click}>ConsoleLog</button>
-        <button type="submit">Create</button>
+        <button type="submit" disabled={!isValidAlignment}>Create</button>
       </form>
     </div>
   );

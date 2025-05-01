@@ -15,3 +15,15 @@
     border-color: #a66b2b;
     box-shadow: 0 0 5px #a66b2b;
   }
+
+  .styled-textarea {
+    background-color: #1f1f1f; 
+    color: #ffffff;           
+    width: 100%;
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    resize: vertical;
+    box-sizing: border-box;
+  }

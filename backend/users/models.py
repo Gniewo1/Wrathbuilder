@@ -28,9 +28,11 @@ class CharacterBuild(models.Model):
     alignment = models.ForeignKey('Alignment', on_delete=models.SET_NULL, null=True)
     background = models.ForeignKey('Background', on_delete=models.SET_NULL, null=True)
     deity = models.ForeignKey('Deity', on_delete=models.SET_NULL, null=True, blank=True)
-    mythic_path = models.CharField(max_length=16, choices=MYTHICPATH_CHOICES)
-    description = models.TextField(blank=True)
+    mythic_path = models.CharField(max_length=16, choices=MYTHICPATH_CHOICES, blank=True)
+    backstory = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
+
+    image = models.ImageField(upload_to='character_images/', blank=True, null=True)
 
     def __str__(self):
         return self.name
