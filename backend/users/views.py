@@ -54,10 +54,26 @@ class UserCheckView(APIView):
             'last_name': user.last_name
         })
     
-class CharacterBuildCreateView(generics.CreateAPIView):
-    queryset = CharacterBuild.objects.all()
-    serializer_class = CharacterBuildSerializer
+class CharacterBuild(APIView):
     permission_classes = [IsAuthenticated]
+
+    ### Get only one Character build
+    def get_object(self, pk):
+        return CharacterBuild.objects.get(pk=pk)
+
+
+    def get(self, request, pk=None):
+        if pk:
+            build = self.get_object(pk)
+            serializer = CharacterBuildSerializer(build)
+            return(build)
+        else:
+            builds = CharacterBuild.objects.all()
+            return(builds)
+
+
+
+
 
 ########################################## fetch names of objects #############################
 def race_names(request):
