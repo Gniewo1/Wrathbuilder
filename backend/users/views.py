@@ -141,7 +141,7 @@ def fetch_deity(request, deity_id):
     })
 
 
-######################## Create CharacterBuild ######################
+######################## Create Character ######################
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def create_character_build(request):
@@ -174,3 +174,8 @@ def create_character_build(request):
         return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
     except Exception as e:
         return Response({'error': 'Something went wrong: ' + str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+############################# Load Characters #########################################
+
+
