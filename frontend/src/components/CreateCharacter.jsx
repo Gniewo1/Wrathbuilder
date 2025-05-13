@@ -107,7 +107,8 @@ const CreateCharacter = () => {
 
   return (
     <div>
-      <h2>Create New Character</h2>
+      <div className="empty-container"></div>
+      <h1>Create New Character</h1>
       <form onSubmit={handleSubmit} className="character-form">
         <label>
           Character Name:
@@ -117,7 +118,6 @@ const CreateCharacter = () => {
             value={name}
             onChange={e => setName(e.target.value)}
             required
-            className="wide-input"
           />
         </label>
 
@@ -140,6 +140,7 @@ const CreateCharacter = () => {
         </label>
 
         {selectedRace && <RaceComponent id={selectedRace} />}
+
 
         <label>
           Class:
