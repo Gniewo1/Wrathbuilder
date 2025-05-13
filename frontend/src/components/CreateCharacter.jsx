@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../styles/Select.css';
+import '../styles/CreateCharacter.css';
 import RaceComponent from './RaceComponent';
 import ClassComponent from './ClassComponent';
 import BackgroundComponent from './BackgroundComponent';
@@ -107,17 +108,19 @@ const CreateCharacter = () => {
   return (
     <div>
       <h2>Create New Character</h2>
-      <form onSubmit={handleSubmit} className="auth-form">
+      <form onSubmit={handleSubmit} className="character-form">
         <label>
           Character Name:
-          <input
+          <input 
             type="text"
             name="name"
             value={name}
             onChange={e => setName(e.target.value)}
             required
+            className="wide-input"
           />
         </label>
+
 
         <label>
           Race:
@@ -155,12 +158,16 @@ const CreateCharacter = () => {
           </select>
         </label>
 
+
         {selectedClass && (
           <ClassComponent
             id={selectedClass}
             setAllowedAlignments={setClassAlignments}
           />
         )}
+
+              </form>
+              <form onSubmit={handleSubmit} className="character-form">
 
         <label>
           Alignment:
@@ -229,7 +236,7 @@ const CreateCharacter = () => {
           <label>
             Backstory:
           
-            <textarea
+            <textarea 
               value={backstory}
               onChange={(e) => setBackstory(e.target.value)}
               rows={5}
