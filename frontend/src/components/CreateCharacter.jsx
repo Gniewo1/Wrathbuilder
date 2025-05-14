@@ -69,12 +69,17 @@ const CreateCharacter = () => {
       alert('You must be logged in to create a character build.');
       return;
     }
+
+    const getAlignmentId = (alignmentName) => {
+      const alignment = alignments.find((align) => align.name === alignmentName);
+      return alignment ? alignment.id : null; // Return null if not found
+    };
   
     const buildData = {
       name,
       race: selectedRace,
       first_class: selectedClass,
-      alignment: selectedAlignment,
+      alignment: getAlignmentId(selectedAlignment),
       background: selectedBackground,
       deity: selectedDeity || null,
       // mythic_path: 
@@ -82,28 +87,32 @@ const CreateCharacter = () => {
     };
   
     try {
-      const response = await fetch('http://localhost:8000/create-character/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Token ${token}`
-        },
-        body: JSON.stringify(buildData)
-      });
-  
-      const data = await response.json();
-  
-      if (response.ok) {
-        alert('Character build created successfully!');
-        // Optionally reset form or redirect
-      } else {
-        alert(`Error: ${data.error}`);
+        console.log(buildData);
+
+        const response = await axios.post(
+          'http://localhost:8000/character-build/',
+          buildData,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Token ${token}`,
+            },
+          }
+        );
+
+        const data = response.data;
+
+        if (response.status === 201) { // Check if the status is 201 (Created)
+          alert('Character build created successfully!');
+          // Optionally reset form or redirect
+        } else {
+          alert(`Error: ${data.error || 'Something went wrong'}`);
+        }
+      } catch (error) {
+        console.error('Error submitting build:', error);
+        alert('Something went wrong.');
       }
-    } catch (error) {
-      console.error('Error submitting build:', error);
-      alert('Something went wrong.');
-    }
-  };
+    };
 
   return (
     <div>
@@ -111,7 +120,7 @@ const CreateCharacter = () => {
       <h1>Create New Character</h1>
       <form onSubmit={handleSubmit} className="character-form">
         <label>
-          Character Name:
+          <h3>Character Name: </h3>
           <input 
             type="text"
             name="name"
@@ -120,6 +129,7 @@ const CreateCharacter = () => {
             required
           />
         </label>
+        <br></br>
 
 
         <label>
@@ -167,8 +177,6 @@ const CreateCharacter = () => {
           />
         )}
 
-              </form>
-              <form onSubmit={handleSubmit} className="character-form">
 
         <label>
           Alignment:

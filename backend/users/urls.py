@@ -10,7 +10,7 @@ urlpatterns = [
     path('api/logout/', knox_views.LogoutView.as_view(), name='logout'),
     path('api/auth/user/', UserCheckView.as_view(), name='user-check'),
     
-    # path('builds/create/', CharacterBuildCreateView.as_view(), name='create-build'),
+    path('character-build/', CharacterBuild.as_view(), name='character-build'),
 
     path('race-names/', race_names, name='race-names'),
     path('class-names/', class_names, name='class-names'),
