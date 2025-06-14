@@ -1,9 +1,8 @@
 import Navbar from '../components/Navbar'
-import Main from '../components/LoadCharacter/Main'
-import Race from '../components/LoadCharacter/Race'
-import Class from '../components/LoadCharacter/Class'
 import '../styles/Select.css';
 import '../styles/CreateCharacter.css';
+import '../styles/Buttons.css';
+import LoadButtons from '../components/LoadCharacter/LoadButtons'
 
 const LoadCharacter = () => {
     
@@ -11,15 +10,11 @@ const LoadCharacter = () => {
     return (
         <>
         <Navbar/>
-        <div className="empty-container"></div>
-        <h1>Create New Character</h1>
-        <form className="character-form">
-        <Main/>
-        <div>
-            <Race />
-            <Class />
+        {/* <div className="empty-container"></div> */}
+        <h1>Load Character</h1>
+        <div className='character-form'>
+        <LoadButtons/>
         </div>
-        </form>
         </>
     );
 

@@ -54,22 +54,32 @@ class UserCheckView(APIView):
             'last_name': user.last_name
         })
     
-class CharacterBuild(APIView):
+class CharacterBuildView(APIView):
     permission_classes = [IsAuthenticated]
 
     ### Get only one Character build
     def get_object(self, pk):
         return CharacterBuild.objects.get(pk=pk)
+    
+    def get_user_builds(self, user):
+        return CharacterBuild.objects.filter(user=user)
+
 
 
     def get(self, request, pk=None):
         if pk:
             build = self.get_object(pk)
             serializer = CharacterBuildSerializer(build)
-            return(build)
+            return Response(serializer.data)
+        # elif user:
+        #     builds = self.get_user_builds(user)
+        #     serializer = CharacterBuildSerializer(builds)
+        #     return Response(serializer.data)
+
         else:
-            builds = CharacterBuild.objects.all()
-            return(builds)
+            builds = self.get_user_builds(request.user)
+            serializer = CharacterBuildSerializer(builds, many=True)
+            return Response(serializer.data)
         
     def post(self, request):
         data = request.data.copy()

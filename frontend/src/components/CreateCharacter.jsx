@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../styles/Select.css';
 import '../styles/CreateCharacter.css';
-import RaceComponent from './RaceComponent';
-import ClassComponent from './ClassComponent';
-import BackgroundComponent from './BackgroundComponent';
-import DeityComponent from './DeityComponent';
+import RaceComponent from './CreateCharacter/RaceComponent';
+import ClassComponent from './CreateCharacter/ClassComponent';
+import BackgroundComponent from './CreateCharacter/BackgroundComponent';
+import DeityComponent from './CreateCharacter/DeityComponent';
 
 const CreateCharacter = () => {
   const [name, setName] = useState('');

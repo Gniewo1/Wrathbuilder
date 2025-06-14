@@ -39,3 +39,39 @@
   .loadCharacter:hover {
     transform: scale(1.05);
   }
+
+
+
+
+/* Load charaters page buttons */
+  .build-list {
+  list-style: none;
+  padding: 0;
+}
+
+.build-item {
+  margin-bottom: 1em;
+}
+
+.build-button {
+  padding: 1em;
+  width: 100%;
+  text-align: left;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.build-button:hover {
+  background-color: #e0e0e0;
+}
+
+.build-button h3 {
+  margin: 0 0 0.5em 0;
+}
+
+.build-button p {
+  margin: 0.2em 0;
+}
