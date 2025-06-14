@@ -30,6 +30,9 @@ const CreateCharacter = () => {
   };
 
 
+
+
+
   const isValidAlignment = 
   (deityAlignments.includes(selectedAlignment) || deityAlignments.includes('ANY')) &&
   (classAlignments.includes(selectedAlignment) || classAlignments.includes('ANY'));

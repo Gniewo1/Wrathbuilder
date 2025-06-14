@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 // This component displays information about a class given its ID
-export default function ClassComponent({ id }) {
+export default function ClassComponent({ id, setAllowedAlignments }) {
   const [classDetails, setClassDetails] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -18,7 +18,13 @@ export default function ClassComponent({ id }) {
       .then((response) => {
         setClassDetails(response.data);
 
-        // Pass alignments up if available, otherwise send 'ANY'
+        // ✅ Pass alignments up to parent
+        if (setAllowedAlignments) {
+          const alignments = Array.isArray(response.data.allowed_alignments) && response.data.allowed_alignments.length > 0
+            ? response.data.allowed_alignments
+            : ['ANY']; // Fallback if empty
+          setAllowedAlignments(alignments);
+        }
 
         setLoading(false);
       })
@@ -27,7 +33,7 @@ export default function ClassComponent({ id }) {
         setError('Failed to load class details.');
         setLoading(false);
       });
-  }, [id]);
+  }, [id, setAllowedAlignments]);
 
   if (loading) return <div>Loading class details...</div>;
   if (error) return <div>{error}</div>;

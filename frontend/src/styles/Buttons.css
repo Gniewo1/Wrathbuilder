@@ -56,8 +56,8 @@
 .build-button {
   padding: 1em;
   width: 100%;
-  text-align: left;
-  background-color: #f0f0f0;
+  text-align: center;
+  background-color: #e0c97f;
   border: 1px solid #ccc;
   border-radius: 8px;
   cursor: pointer;
@@ -74,4 +74,29 @@
 
 .build-button p {
   margin: 0.2em 0;
+}
+
+
+/* Submit Button */
+.submit-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  font-weight: bold;
+}
+
+.submit-btn-enabled {
+  background-color: #28a745;
+  cursor: pointer;
+}
+
+.submit-btn-enabled:hover {
+  background-color: #218838;
+}
+
+.submit-btn-disabled {
+  background-color: #ccc;
+  color: #666;
+  cursor: not-allowed;
 }

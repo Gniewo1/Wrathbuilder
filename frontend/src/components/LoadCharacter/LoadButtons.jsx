@@ -27,7 +27,7 @@ const  LoadButtons = () => {
 
   return (
     <div>
-      <h2>Your Character Builds</h2>
+      <h1>Your Character Builds</h1>
       <ul className="build-list">
         {builds.map(build => (
             <li key={build.id} className="build-item">
