@@ -4,7 +4,7 @@ import Register from './pages/Register'
 import Home from './pages/Home'
 import NewCharacter from './pages/NewCharacter'
 import LoadCharacter from './pages/LoadCharacter'
-import ViewCharacter from './pages/ViewCharacter'
+import CharacterView from './pages/CharacterView'
 import {Routes, Route, Navigate} from 'react-router-dom'
 import axios from 'axios'
 
@@ -53,7 +53,9 @@ function App() {
      <Route path="/register" element={isAuthenticated ? <Navigate to="/" /> : <Register/>} />
      <Route path="/newcharacter" element={<NewCharacter/>} />
      <Route path="/loadcharacter" element={<LoadCharacter/>} />
-     <Route path="/character" element={<ViewCharacter/>} />
+     {/* <Route path="/character" element={<ViewCharacter/>} /> */}
+     <Route path="/builds/:id" element={<CharacterView />} />
+
 
     </Routes>
     </>

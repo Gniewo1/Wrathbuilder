@@ -29,5 +29,5 @@ class CharacterBuildSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CharacterBuild
-        fields = ['id', 'name', 'backstory', 'class_name', 'deity_name', 'created_at']
+        fields = ['id', 'name', 'backstory', 'class_name', 'deity_name', 'created_at', 'image']
 

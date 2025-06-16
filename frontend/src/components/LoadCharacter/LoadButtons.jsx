@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const  LoadButtons = () => {
   const [builds, setBuilds] = useState([]);
+  const navigate = useNavigate(); 
   
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -33,7 +35,7 @@ const  LoadButtons = () => {
             <li key={build.id} className="build-item">
             <button
                 className="build-button"
-                onClick={() => console.log(`Clicked build ${build.name}`)} // or navigate(`/builds/${build.id}`)
+                onClick={() => navigate(`/builds/${build.id}`)} // or navigate(`/builds/${build.id}`)
             >
                 <h3>{build.name}</h3>
                 <p><strong>Class:</strong> {build.class_name}</p>

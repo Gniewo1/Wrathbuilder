@@ -11,6 +11,7 @@ urlpatterns = [
     path('api/auth/user/', UserCheckView.as_view(), name='user-check'),
     
     path('character-build/', CharacterBuildView.as_view(), name='character-build'),
+    path('character-build/<int:pk>/', CharacterBuildView.as_view(), name='character-build-detail'),
 
     path('race-names/', race_names, name='race-names'),
     path('class-names/', class_names, name='class-names'),

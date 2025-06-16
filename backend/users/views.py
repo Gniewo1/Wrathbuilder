@@ -71,10 +71,6 @@ class CharacterBuildView(APIView):
             build = self.get_object(pk)
             serializer = CharacterBuildSerializer(build)
             return Response(serializer.data)
-        # elif user:
-        #     builds = self.get_user_builds(user)
-        #     serializer = CharacterBuildSerializer(builds)
-        #     return Response(serializer.data)
 
         else:
             builds = self.get_user_builds(request.user)
