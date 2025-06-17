@@ -1,9 +1,25 @@
 import React, { useState } from 'react';
 // import '../styles/Buttons.css';
 
-export default function AbilityScoresComponent({ scores, setScores }) {
-  const { pointPool, str, dex, con, int: intelligence, wis, cha } = scores;
+export default function AbilityScoresComponent() {
 
+    const [scores, setScores] = React.useState({
+    strength: 10, dexterity: 10, constitution: 10, inteligence: 10, wisdom: 10, charisma: 10
+  });
+    const [pointPool, setPointPool] = React.useState(25);
+
+    const handleStatChange = (stat, delta) => {
+    console.log('Clicked:', stat, delta);
+    setScores(prev => ({
+      ...prev,
+      [stat]: prev[stat] + delta,
+    }));
+    setPointPool(p => p - delta);
+  };
+
+
+
+  
   const statStyle = {
     display: 'flex',
     alignItems: 'center',
@@ -11,33 +27,21 @@ export default function AbilityScoresComponent({ scores, setScores }) {
     marginBottom: '10px',
   };
 
-  const handleStatChange = (statName, delta) => {
-    console.log("handleStatChange called with:", statName, delta);
-    const currentValue = scores[statName];
-    const newValue = currentValue + delta;
-    const cost = delta;
 
-    if (pointPool - cost < 0 || newValue < 7 || newValue > 18) return;
 
-    setScores({
-      ...scores,
-      [statName]: newValue,
-      pointPool: pointPool - cost,
-    });
-  };
 
   return (
-    <div style={{ padding: '20px' }}>
+   <div style={{ padding: '20px' }}>
       <h2>Point Pool: {pointPool}</h2>
-
-      {['str', 'dex', 'con', 'int', 'wis', 'cha'].map((stat) => {
-        const label = stat === 'int' ? 'Intelligence' : stat.charAt(0).toUpperCase() + stat.slice(1);
+      {['strength', 'dexterity', 'constitution', 'inteligence', 'wisdom', 'charisma'].map((stat) => {
+        const label = stat.charAt(0).toUpperCase() + stat.slice(1);
         return (
           <div key={stat} style={statStyle}>
-            <span>{label}:</span>
-            <button type="button" className="stat-button" onClick={() => handleStatChange(stat, 1)}>+</button>
-            <span>{scores[stat]}</span>
-            <button type="button" className="stat-button" onClick={() => handleStatChange(stat, -1)}>-</button>
+            <span className="stat-label">{label}:</span>
+            <button type="button" onClick={() => handleStatChange(stat, -1)}>-</button>
+            <span className="stat-label">{scores[stat]}</span>
+            <button type="button" onClick={() => handleStatChange(stat, 1)}>+</button>
+            
           </div>
         );
       })}

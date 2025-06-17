@@ -25,15 +25,15 @@ const CreateCharacter = () => {
   const [deityAlignments, setDeityAlignments] = useState([]);
   const [classAlignments, setClassAlignments] = useState([]);
 
-  const [abilityScores, setAbilityScores] = useState({
-  str: 10,
-  dex: 10,
-  con: 10,
-  int: 10,
-  wis: 10,
-  cha: 10,
-  pointPool: 25,
-});
+//   const [abilityScores, setAbilityScores] = useState({
+//   str: 10,
+//   dex: 10,
+//   con: 10,
+//   int: 10,
+//   wis: 10,
+//   cha: 10,
+//   pointPool: 25,
+// });
   
   const handleAlignmentChange = (e) => {
     const selectedId = e.target.value;  // The selected alignment id
@@ -255,10 +255,10 @@ const CreateCharacter = () => {
           />
         )}
 
-        <label>
-          Ability Scores:
-                    <AbilityScoresComponent scores={abilityScores} setScores={setAbilityScores} />
-          </label>
+          <label htmlFor="ability-scores">Ability Scores:</label>
+          <div id="ability-scores">
+            <AbilityScoresComponent />
+          </div>
 
 
           <label>

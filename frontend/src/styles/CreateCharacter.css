@@ -33,3 +33,14 @@ label {
   font-size: 20px;
 }
 
+.stat-label {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.abilityline {
+  display: flex;
+  align-items: center; /* vertically center content */
+  gap: 10px; /* space between items */
+}
+
