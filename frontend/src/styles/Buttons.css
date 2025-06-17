@@ -62,6 +62,7 @@
   border-radius: 8px;
   cursor: pointer;
   transition: background-color 0.2s ease;
+  overflow: hidden;
 }
 
 .build-button:hover {
@@ -99,4 +100,25 @@
   background-color: #ccc;
   color: #666;
   cursor: not-allowed;
+}
+
+.stat-button {
+  padding: 4px 10px;
+  background-color: #333;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.stat-button:hover {
+  background-color: #555;
+}
+
+.stat-button:disabled {
+  background-color: #888;
+  cursor: not-allowed;
+  opacity: 0.6;
 }
