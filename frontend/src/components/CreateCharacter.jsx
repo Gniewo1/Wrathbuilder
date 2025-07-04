@@ -266,7 +266,7 @@ const CreateCharacter = () => {
           />
         )}
 
-          <label htmlFor="ability-scores">Ability Scores:</label>
+          {/* <label htmlFor="ability-scores">Ability Scores:</label> */}
           <div id="ability-scores">
             <AbilityScoresComponent />
           </div>

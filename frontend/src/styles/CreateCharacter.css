@@ -38,13 +38,28 @@ label {
   font-weight: bold;
 }
 
-.abilityline {
+/* .abilityline {
   display: flex;
-  align-items: center; /* vertically center content */
-  gap: 10px; /* space between items */
+  align-items: center; 
+  gap: 10px; 
+} */
+
+.ability-names {
+  text-align: left;
+  display: flex;
+  align-items: center;
+
 }
 
-.abilitynames {
-  text-align: left;
+
+.button-grid{
+  display: inline;
+}
+
+.ability-button{
+  height: 45px;
+  width: 45px;
+  margin-right: 10px;
+  margin-left: 10px;
 }
 
