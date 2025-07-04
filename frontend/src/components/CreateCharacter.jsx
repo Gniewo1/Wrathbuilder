@@ -209,6 +209,17 @@ const CreateCharacter = () => {
           </select>
         </label>
 
+                  <div>
+          {/* <h3>Chosen Alignment: {selectedAlignment}</h3> */}
+          {!selectedAlignment ? (
+            <p>Please select an alignment.</p>
+          ) : isValidAlignment ? (
+            <p style={{ color: 'green' }}>✅ This alignment is allowed by both deity and class.</p>
+          ) : (
+            <p style={{ color: 'red' }}>❌ This alignment is not allowed by either the deity or the class.</p>
+          )}
+        </div>
+
 
 
 
@@ -274,16 +285,7 @@ const CreateCharacter = () => {
           </label>
 
 
-          <div>
-          {/* <h3>Chosen Alignment: {selectedAlignment}</h3> */}
-          {!selectedAlignment ? (
-            <p>Please select an alignment.</p>
-          ) : isValidAlignment ? (
-            <p style={{ color: 'green' }}>✅ This alignment is allowed by both deity and class.</p>
-          ) : (
-            <p style={{ color: 'red' }}>❌ This alignment is not allowed by either the deity or the class.</p>
-          )}
-        </div>
+
         <button type="submit" disabled={!isValidAlignment}>Create</button>
       </form>
     </div>
