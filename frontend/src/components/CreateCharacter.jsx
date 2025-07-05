@@ -7,6 +7,7 @@ import ClassComponent from './CreateCharacter/ClassComponent';
 import BackgroundComponent from './CreateCharacter/BackgroundComponent';
 import DeityComponent from './CreateCharacter/DeityComponent';
 import AbilityScoresComponent from './CreateCharacter/AbilityScoresComponent';
+import ImageComponent from './CreateCharacter/ImageComponent';
 
 const CreateCharacter = () => {
   const [name, setName] = useState('');
@@ -266,13 +267,13 @@ const CreateCharacter = () => {
         )}
 
         <div style={{ display: 'flex', gap: '20px' }}>
-          <div id="ability-scores">
+          <div id="ability-scores" style={{marginLeft: '40px' }}>
             <AbilityScoresComponent />
             <h5>*Racial bonuses are not calculated</h5>
           </div>
 
-          <div>
-            <h2>No image</h2>
+          <div style={{ marginLeft: 'auto'}}>
+            <ImageComponent/>
           </div>
           </div>
 
