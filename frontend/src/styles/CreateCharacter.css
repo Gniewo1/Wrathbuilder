@@ -38,22 +38,12 @@ label {
   font-weight: bold;
 }
 
-/* .abilityline {
-  display: flex;
-  align-items: center; 
-  gap: 10px; 
-} */
 
 .ability-names {
   text-align: left;
   display: flex;
   align-items: center;
 
-}
-
-
-.button-grid{
-  display: inline;
 }
 
 .ability-button{

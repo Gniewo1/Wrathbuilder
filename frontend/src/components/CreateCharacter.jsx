@@ -210,7 +210,6 @@ const CreateCharacter = () => {
         </label>
 
                   <div>
-          {/* <h3>Chosen Alignment: {selectedAlignment}</h3> */}
           {!selectedAlignment ? (
             <p>Please select an alignment.</p>
           ) : isValidAlignment ? (
@@ -266,9 +265,15 @@ const CreateCharacter = () => {
           />
         )}
 
-          {/* <label htmlFor="ability-scores">Ability Scores:</label> */}
+        <div style={{ display: 'flex', gap: '20px' }}>
           <div id="ability-scores">
             <AbilityScoresComponent />
+            <h5>*Racial bonuses are not calculated</h5>
+          </div>
+
+          <div>
+            <h2>No image</h2>
+          </div>
           </div>
 
 
