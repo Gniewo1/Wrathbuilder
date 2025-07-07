@@ -33,21 +33,21 @@ export default function ClassComponent({ id, setAllowedAlignments }) {
         setError('Failed to load class details.');
         setLoading(false);
       });
-  }, [id, setAllowedAlignments]);
+    }, [id, setAllowedAlignments]);
 
-  if (loading) return <div>Loading class details...</div>;
-  if (error) return <div>{error}</div>;
-  if (!classDetails) return <div>No class details available</div>;
+    if (loading) return <div>Loading class details...</div>;
+    if (error) return <div>{error}</div>;
+    if (!classDetails) return <div>No class details available</div>;
 
-  const allowedAlignments =
-    Array.isArray(classDetails.allowed_alignments) && classDetails.allowed_alignments.length > 0
-      ? classDetails.allowed_alignments.join(', ')
-      : 'ANY';
+    const allowedAlignments =
+      Array.isArray(classDetails.allowed_alignments) && classDetails.allowed_alignments.length > 0
+        ? classDetails.allowed_alignments.join(', ')
+        : 'ANY';
 
-  const classSkills =
-    Array.isArray(classDetails.class_skills) && classDetails.class_skills.length > 0
-      ? classDetails.class_skills.join(', ')
-      : 'N/A';
+    const classSkills =
+      Array.isArray(classDetails.class_skills) && classDetails.class_skills.length > 0
+        ? classDetails.class_skills.join(', ')
+        : 'N/A';
 
   return (
     <div>

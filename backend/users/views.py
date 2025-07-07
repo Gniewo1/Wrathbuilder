@@ -78,13 +78,11 @@ class CharacterBuildView(APIView):
             return Response(serializer.data)
         
     def post(self, request):
-        data = request.data.copy()
-        data['user'] = request.user.id  # attach the logged-in user
-
-        serializer = CharacterBuildSerializer(data=data)
+        serializer = CharacterBuildSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
+            serializer.save(user=request.user) 
             return Response(serializer.data, status=status.HTTP_201_CREATED)
+        print("Błąd walidacji serializera:", serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 

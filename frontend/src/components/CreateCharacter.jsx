@@ -22,23 +22,19 @@ const CreateCharacter = () => {
   const [deities, setDeities] = useState([]);
   const [selectedDeity, setSelectedDeity] = useState('');
   const [backstory, setBackstory] = useState('');
+  const [selectedImage, setSelectedImage] = useState(null);
 
   const [deityAlignments, setDeityAlignments] = useState([]);
   const [classAlignments, setClassAlignments] = useState([]);
 
-//   const [abilityScores, setAbilityScores] = useState({
-//   str: 10,
-//   dex: 10,
-//   con: 10,
-//   int: 10,
-//   wis: 10,
-//   cha: 10,
-//   pointPool: 25,
-// });
-  
+
   const handleAlignmentChange = (e) => {
     const selectedId = e.target.value;  // The selected alignment id
     setSelectedAlignment(selectedId);   // First task: Update selected alignment
+  };
+
+  const handleImageSelect = (file) => {
+    setSelectedImage(file); 
   };
 
 
@@ -90,26 +86,28 @@ const CreateCharacter = () => {
       return alignment ? alignment.id : null; // Return null if not found
     };
   
-    const buildData = {
-      name,
-      race: selectedRace,
-      first_class: selectedClass,
-      alignment: getAlignmentId(selectedAlignment),
-      background: selectedBackground,
-      deity: selectedDeity || null,
-      // mythic_path: 
-      backstory
-    };
+    const formData = new FormData();
+    formData.append('name', name);
+    formData.append('race', selectedRace);
+    formData.append('first_class', selectedClass);
+    formData.append('alignment', getAlignmentId(selectedAlignment));
+    formData.append('background', selectedBackground);
+    formData.append('deity', selectedDeity || '');
+    formData.append('backstory', backstory);
+    if (selectedImage) {
+      formData.append('image', selectedImage);
+    }
+
   
     try {
-        console.log(buildData);
+        console.log(formData);
 
         const response = await axios.post(
           'http://localhost:8000/character-build/',
-          buildData,
+          formData,
           {
             headers: {
-              'Content-Type': 'application/json',
+              // 'Content-Type': 'application/json',
               'Authorization': `Token ${token}`,
             },
           }
@@ -130,11 +128,14 @@ const CreateCharacter = () => {
     };
 
   return (
+    <>
     <div>
+
       <div className="empty-container"></div>
-      <h1>Create New Character</h1>
+
       <form onSubmit={handleSubmit} className="character-form">
         <label>
+          <h1>Create New Character</h1>
           <h3>Character Name: </h3>
           <input 
             type="text"
@@ -267,14 +268,16 @@ const CreateCharacter = () => {
         )}
 
         <div style={{ display: 'flex', gap: '20px' }}>
+
           <div id="ability-scores" style={{marginLeft: '40px' }}>
             <AbilityScoresComponent />
             <h5>*Racial bonuses are not calculated</h5>
           </div>
 
           <div style={{ marginLeft: 'auto'}}>
-            <ImageComponent/>
+            <ImageComponent onImageSelect={handleImageSelect} />
           </div>
+
           </div>
 
 
@@ -287,6 +290,7 @@ const CreateCharacter = () => {
               rows={5}
               placeholder="Enter character's backstory here..."
               className="styled-textarea"
+              style={{height: '400px'}}
             />
           </label>
 
@@ -295,6 +299,7 @@ const CreateCharacter = () => {
         <button type="submit" disabled={!isValidAlignment}>Create</button>
       </form>
     </div>
+    </>
   );
 };
 

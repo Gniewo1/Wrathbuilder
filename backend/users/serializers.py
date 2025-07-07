@@ -21,13 +21,24 @@ class RegisterSerializer(serializers.ModelSerializer):
     
 
 class CharacterBuildSerializer(serializers.ModelSerializer):
-    # class Meta:
-    #     model = CharacterBuild
-    #     fields = '__all__'
-    class_name = serializers.StringRelatedField(source='first_class')  # replace 'class_field' with actual field name
-    deity_name = serializers.StringRelatedField(source='deity')        # optional rename
+    class_name = serializers.StringRelatedField(source='first_class', read_only=True)
+    deity_name = serializers.StringRelatedField(source='deity', read_only=True)
 
     class Meta:
         model = CharacterBuild
-        fields = ['id', 'name', 'backstory', 'class_name', 'deity_name', 'created_at', 'image']
+        fields = [
+            'id',
+            'name',
+            'backstory',
+            'race',
+            'first_class',
+            'alignment',
+            'background',
+            'deity',
+            'image',
+            'created_at',
+            'class_name',   
+            'deity_name',   
+        ]
+        read_only_fields = ['user', 'created_at', 'class_name', 'deity_name']
 
