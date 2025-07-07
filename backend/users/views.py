@@ -69,12 +69,12 @@ class CharacterBuildView(APIView):
     def get(self, request, pk=None):
         if pk:
             build = self.get_object(pk)
-            serializer = CharacterBuildSerializer(build)
+            serializer = CharacterBuildSerializer(build, context={'request': request})
             return Response(serializer.data)
 
         else:
             builds = self.get_user_builds(request.user)
-            serializer = CharacterBuildSerializer(builds, many=True)
+            serializer = CharacterBuildSerializer(builds, many=True, context={'request': request})
             return Response(serializer.data)
         
     def post(self, request):

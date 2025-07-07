@@ -15,7 +15,7 @@ const  LoadButtons = () => {
       try {
         const response = await axios.get('http://localhost:8000/character-build/', {
           headers: {
-            Authorization: `Token ${token}`, // Or Bearer if using JWT
+            Authorization: `Token ${token}`, 
           }
         });
         setBuilds(response.data);
@@ -28,6 +28,7 @@ const  LoadButtons = () => {
   }, []);
 
   return (
+    <>
     <div>
       <h1>Your Character Builds</h1>
       <ul className="build-list">
@@ -35,16 +36,40 @@ const  LoadButtons = () => {
             <li key={build.id} className="build-item">
             <button
                 className="build-button"
-                onClick={() => navigate(`/builds/${build.id}`)} // or navigate(`/builds/${build.id}`)
+                onClick={() => navigate(`/builds/${build.id}`)}
             >
-                <h3>{build.name}</h3>
-                <p><strong>Class:</strong> {build.class_name}</p>
-                <p><strong>Deity:</strong> {build.deity_name}</p>
+          <div style={{ display: 'flex' }}>
+            {/* Lewa kolumna – zdjęcie */}
+            <div>
+              <img
+                src={build.image}
+                alt={build.name}
+                style={{ maxWidth: '300px', height: 'auto' }}
+              />
+            </div>
+
+            {/* Prawa kolumna – wycentrowany tekst */}
+            <div style={{
+              flex: 1,
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center'
+            }}>
+              <div>
+                <h1>Name: {build.name}</h1>
+                <h2>Class: {build.class_name}</h2>
+                <h2>Deity: {build.deity_name}</h2>
+              </div>
+            </div>
+          </div>
+
             </button>
             </li>
         ))}
         </ul>
     </div>
+
+    </>
   );
 };
 
