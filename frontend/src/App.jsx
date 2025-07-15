@@ -5,6 +5,7 @@ import Home from './pages/Home'
 import NewCharacter from './pages/NewCharacter'
 import LoadCharacter from './pages/LoadCharacter'
 import CharacterView from './pages/CharacterView'
+import Test from './pages/Test'
 import {Routes, Route, Navigate} from 'react-router-dom'
 import axios from 'axios'
 
@@ -55,6 +56,7 @@ function App() {
      <Route path="/loadcharacter" element={<LoadCharacter/>} />
      {/* <Route path="/character" element={<ViewCharacter/>} /> */}
      <Route path="/builds/:id" element={<CharacterView />} />
+      <Route path="/test" element={<Test/>} />
 
 
     </Routes>
