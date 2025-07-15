@@ -24,18 +24,26 @@ const CreateCharacter = () => {
   const [backstory, setBackstory] = useState('');
   const [selectedImage, setSelectedImage] = useState(null);
 
+  const [chooseBonus, setChooseBonus] = useState('False');
+
+
   const [deityAlignments, setDeityAlignments] = useState([]);
   const [classAlignments, setClassAlignments] = useState([]);
 
 
   const handleAlignmentChange = (e) => {
     const selectedId = e.target.value;  // The selected alignment id
+    // console.log(race)
     setSelectedAlignment(selectedId);   // First task: Update selected alignment
   };
 
   const handleImageSelect = (file) => {
     setSelectedImage(file); 
   };
+
+  const showRace = () => {
+    console.log(chooseBonus);
+  }
 
 
 
@@ -165,7 +173,7 @@ const CreateCharacter = () => {
           </select>
         </label>
 
-        {selectedRace && <RaceComponent id={selectedRace} />}
+        {selectedRace && <RaceComponent id={selectedRace} chooseBonus={setChooseBonus} />}
 
 
         <label>
@@ -270,7 +278,7 @@ const CreateCharacter = () => {
         <div style={{ display: 'flex', gap: '20px' }}>
 
           <div id="ability-scores" style={{marginLeft: '40px' }}>
-            <AbilityScoresComponent />
+            <AbilityScoresComponent choose_bonus={chooseBonus} />
             <h5>*Racial bonuses are not calculated</h5>
           </div>
 
@@ -297,6 +305,8 @@ const CreateCharacter = () => {
 
 
         <button type="submit" disabled={!isValidAlignment}>Create</button>
+
+        <button type="button" onClick={showRace}> Do usunięcia</button>
       </form>
     </div>
     </>

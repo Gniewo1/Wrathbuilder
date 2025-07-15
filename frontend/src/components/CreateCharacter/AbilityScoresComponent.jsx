@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 // import '../styles/Buttons.css';
 
-export default function AbilityScoresComponent() {
+export default function AbilityScoresComponent({choose_bonus}) {
 const [abilityScores, setAbilityScores] = useState({
   Strength: 10,
   Dexterity: 10,
@@ -97,7 +97,14 @@ const getPointCostDecrease = (score) => {
           </div>
         );
       })}
+
+      <div>
+        {choose_bonus === true ? <p>Choose Bonus</p> : null}
       </div>
+
+      </div>
+
+
       
     </div>
     </>

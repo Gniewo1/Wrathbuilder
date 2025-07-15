@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 // This component is showing info about race with given id of this race
-export default function RaceComponent({ id }) {
+export default function RaceComponent({ id,  chooseBonus }) {
   const [raceDetails, setRaceDetails] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -17,7 +17,7 @@ export default function RaceComponent({ id }) {
     axios
       .get(`http://localhost:8000/fetch-race/${id}/`)
       .then((response) => {
-        // console.log('Fetched race details:', response.data);
+        chooseBonus(response.data.choose_bonus);
         setRaceDetails(response.data);
         setLoading(false);
       })
