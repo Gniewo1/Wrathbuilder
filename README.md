@@ -1,4 +1,4 @@
-Just started project (25.04.2025)
+Just started project (25.04.2025) (dropped/unfinished)
 
 Django + React project
 
